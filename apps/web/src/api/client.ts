@@ -88,6 +88,12 @@ export async function getMe() {
   return request<{ user: User }>("/auth/me");
 }
 
+export async function deleteAccount() {
+  return request<void>("/auth/account", {
+    method: "DELETE",
+  });
+}
+
 export async function getTrips() {
   return request<{ trips: Trip[] }>("/trips");
 }

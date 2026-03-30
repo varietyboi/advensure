@@ -47,7 +47,7 @@ export type CurrencyCode =
   | "PKR"
   | "BDT"
   | "LKR";
-export type Mood = "CALM" | "HAPPY" | "TIRED" | "GRATEFUL" | "STRESSED";
+export type Mood = "CALM" | "HAPPY" | "TIRED" | "GRATEFUL" | "STRESSED" | "ANXIOUS";
 export type TemplateKind = "BLANK" | "STANDARD";
 
 export type User = {

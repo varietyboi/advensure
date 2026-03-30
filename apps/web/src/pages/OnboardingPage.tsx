@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ApiError } from "../api/client";
 import { usePreferences } from "../context/PreferenceContext";
@@ -9,9 +9,9 @@ type OnboardingPageProps = {
 };
 
 const fontOptions: Array<{ value: FontMode; label: string }> = [
+  { value: "STANDARD", label: "Classic" },
   { value: "TYPEWRITER", label: "Doto" },
   { value: "HANDWRITING", label: "Handwriting" },
-  { value: "STANDARD", label: "Classic" },
   { value: "BOHEMIAN_TYPEWRITER", label: "Bohemian Typewriter" },
 ];
 const themes: ThemeMode[] = ["LIGHT", "DARK"];
@@ -23,6 +23,11 @@ export function OnboardingPage({ onComplete }: OnboardingPageProps) {
   const [themeMode, setThemeMode] = useState<ThemeMode>(preference.themeMode);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", themeMode);
+    document.documentElement.setAttribute("data-font", fontMode);
+  }, [themeMode, fontMode]);
 
   async function complete(nextPath: string) {
     setSaving(true);
@@ -103,13 +108,14 @@ export function OnboardingPage({ onComplete }: OnboardingPageProps) {
 
         {step === 2 ? (
           <div className="form-grid">
-            <h3>Journal and Trips, together</h3>
+            <h3>Journal + Trips</h3>
             <p>
-              Journal entries are the emotional memory. Trips hold practical structure like itinerary and
-              expenses. You can keep entries standalone, or attach them to any trip.
-            </p>
-            <p className="muted">
-              Start from either side and keep both in sync over time.
+              Entries hold your experiences and reflections. Trips structure the journey - plans,
+              itineraries, and expenses.
+              <br />
+              Keep moments independent, or tie them to a trip.
+              <br />
+              Begin anywhere, and watch it all come together.
             </p>
           </div>
         ) : null}

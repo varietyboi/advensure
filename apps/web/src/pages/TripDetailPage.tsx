@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
   ApiError,
@@ -18,7 +18,7 @@ import {
 import { majorCurrencies } from "../constants/currencies";
 import type { CurrencyCode, Mood, TripDetail } from "../types/models";
 
-const moods: Mood[] = ["CALM", "HAPPY", "TIRED", "GRATEFUL", "STRESSED"];
+const moods: Mood[] = ["CALM", "HAPPY", "TIRED", "GRATEFUL", "STRESSED", "ANXIOUS"];
 
 function toDateInputValue(dateIso: string) {
   const date = new Date(dateIso);
@@ -519,6 +519,11 @@ export function TripDetailPage() {
     <div className="page-grid">
       <section className="card fade-up card-stack">
         <p className="eyebrow">Trip Dashboard</p>
+        <div className="item-actions">
+          <Link to="/trips" className="btn btn-soft">
+            Back to trips
+          </Link>
+        </div>
 
         {editingTrip ? (
           <form className="form-grid" onSubmit={(event) => void handleUpdateTrip(event)}>

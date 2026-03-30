@@ -44,7 +44,7 @@ export function AuthScreen() {
     <div className="auth-root">
       <section className="auth-card card fade-up">
         <h1>AdvenSure</h1>
-        <p className="muted">A tactile journaling space for travelers.</p>
+        <p className="muted">Capture memories. Plan the next.</p>
 
         <div className="segmented">
           <button

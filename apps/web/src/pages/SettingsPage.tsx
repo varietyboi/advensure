@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { ApiError, getSampleDataStatus, removeSampleData } from "../api/client";
+import { ApiError, deleteAccount, getSampleDataStatus, removeSampleData } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import { usePreferences } from "../context/PreferenceContext";
 import type { FontMode, ThemeMode } from "../types/models";
 
@@ -9,20 +10,22 @@ type SettingsPageProps = {
 };
 
 const fontOptions: Array<{ value: FontMode; label: string }> = [
+  { value: "STANDARD", label: "Classic" },
   { value: "TYPEWRITER", label: "Doto" },
   { value: "HANDWRITING", label: "Handwriting" },
-  { value: "STANDARD", label: "Classic" },
   { value: "BOHEMIAN_TYPEWRITER", label: "Bohemian Typewriter" },
 ];
 const themes: ThemeMode[] = ["LIGHT", "DARK"];
 
 export function SettingsPage({ onResetOnboarding }: SettingsPageProps) {
+  const { logout } = useAuth();
   const { preference, updatePreference } = usePreferences();
   const [fontMode, setFontMode] = useState<FontMode>(preference.fontMode);
   const [themeMode, setThemeMode] = useState<ThemeMode>(preference.themeMode);
   const [saving, setSaving] = useState(false);
   const [loadingSampleStatus, setLoadingSampleStatus] = useState(true);
   const [removingSampleData, setRemovingSampleData] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
   const [hasSampleData, setHasSampleData] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +112,33 @@ export function SettingsPage({ onResetOnboarding }: SettingsPageProps) {
     }
   }
 
+  async function handleDeleteAccount() {
+    const confirmed = window.confirm(
+      "Delete your account permanently? This will remove your login and all trips, journals, itinerary items, expenses, and preferences."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingAccount(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      await deleteAccount();
+      logout();
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("Unable to delete account right now.");
+      }
+    } finally {
+      setDeletingAccount(false);
+    }
+  }
+
   return (
     <div className="page-grid">
       <section className="card fade-up card-stack">
@@ -153,10 +183,19 @@ export function SettingsPage({ onResetOnboarding }: SettingsPageProps) {
             <button
               className="btn btn-danger"
               type="button"
-              disabled={loadingSampleStatus || removingSampleData || !hasSampleData}
+              disabled={loadingSampleStatus || removingSampleData || deletingAccount || !hasSampleData}
               onClick={() => void handleRemoveSampleData()}
             >
               {removingSampleData ? "Removing..." : "Remove sample data"}
+            </button>
+
+            <button
+              className="btn btn-danger"
+              type="button"
+              disabled={saving || removingSampleData || deletingAccount}
+              onClick={() => void handleDeleteAccount()}
+            >
+              {deletingAccount ? "Deleting account..." : "Delete account"}
             </button>
           </div>
 

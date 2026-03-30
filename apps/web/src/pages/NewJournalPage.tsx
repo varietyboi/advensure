@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { ApiError, createJournal, getTrips } from "../api/client";
 import type { Mood, TemplateKind, Trip } from "../types/models";
 
-const moods: Mood[] = ["CALM", "HAPPY", "TIRED", "GRATEFUL", "STRESSED"];
+const moods: Mood[] = ["CALM", "HAPPY", "TIRED", "GRATEFUL", "STRESSED", "ANXIOUS"];
 const templates: TemplateKind[] = ["BLANK", "STANDARD"];
 
 export function NewJournalPage() {

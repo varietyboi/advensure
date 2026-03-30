@@ -40,6 +40,11 @@
   --font-heading: "Doto", sans-serif;
 }
 
+:root[data-theme="LIGHT"][data-font="TYPEWRITER"] {
+  --ink: #221a13;
+  --ink-muted: #5f5246;
+}
+
 :root[data-font="HANDWRITING"] {
   --font-body: "Playwrite IE", cursive;
   --font-heading: "Playwrite IE", cursive;
@@ -378,6 +383,10 @@ textarea {
   gap: 1rem;
 }
 
+.page-grid > .card {
+  align-self: start;
+}
+
 .hero-card {
   display: grid;
   gap: 0.7rem;
@@ -479,6 +488,23 @@ textarea {
 
 .trip-dates {
   font-size: 0.82rem;
+}
+
+.trip-destination-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.trip-actions {
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+
+.trip-actions .btn {
+  padding: 0.36rem 0.64rem;
+  font-size: 0.82rem;
+  line-height: 1.1;
 }
 
 .two-col-grid {

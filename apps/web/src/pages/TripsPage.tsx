@@ -232,7 +232,7 @@ export function TripsPage() {
 
         <ul className="list-stack">
           {trips.map((trip) => (
-            <li key={trip.id} className="list-item list-item-left">
+            <li key={trip.id} className="list-item list-item-left trip-destination-row">
               {editingTripId === trip.id ? (
                 <form className="form-grid inline-editor" onSubmit={(event) => void handleUpdateTrip(event, trip.id)}>
                   <label className="field">
@@ -304,7 +304,7 @@ export function TripsPage() {
                       {new Date(trip.endDate).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="item-actions">
+                  <div className="item-actions trip-actions">
                     <Link className="btn btn-soft" to={`/trips/${trip.id}`}>
                       Open
                     </Link>

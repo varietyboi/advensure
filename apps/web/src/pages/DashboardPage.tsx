@@ -12,7 +12,7 @@ import {
 } from "../api/client";
 import type { JournalEntry, Mood, Trip } from "../types/models";
 
-const moods: Mood[] = ["CALM", "HAPPY", "TIRED", "GRATEFUL", "STRESSED"];
+const moods: Mood[] = ["CALM", "HAPPY", "TIRED", "GRATEFUL", "STRESSED", "ANXIOUS"];
 
 export function DashboardPage() {
   const [trips, setTrips] = useState<Trip[]>([]);
@@ -279,7 +279,7 @@ export function DashboardPage() {
 
       <section className="card fade-up card-stack">
         <div className="section-header">
-          <h3>Reflections</h3>
+          <h3>Recent Reflections</h3>
           <Link to="/journal/new" className="text-link">
             New entry
           </Link>

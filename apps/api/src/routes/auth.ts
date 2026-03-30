@@ -109,3 +109,22 @@ authRouter.get("/me", requireAuth, async (req, res) => {
 	return res.json({ user });
 });
 
+authRouter.delete("/account", requireAuth, async (req, res) => {
+	if (!req.auth) {
+		return res.status(401).json({ message: "Unauthorized" });
+	}
+
+	const existing = await prisma.user.findUnique({
+		where: { id: req.auth.userId },
+		select: { id: true },
+	});
+
+	if (!existing) {
+		return res.status(404).json({ message: "User not found" });
+	}
+
+	await prisma.user.delete({ where: { id: req.auth.userId } });
+
+	return res.status(204).send();
+});
+
