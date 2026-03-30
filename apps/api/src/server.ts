@@ -25,6 +25,15 @@ export function createServer() {
     res.json({ status: "ok" });
   });
 
+  app.get("/", (_req, res) => {
+    res.json({
+      name: "AdvenSure API",
+      status: "ok",
+      health: "/health",
+      routes: ["/auth", "/journals", "/trips", "/preferences"],
+    });
+  });
+
   app.use("/auth", authRouter);
   app.use("/journals", journalsRouter);
   app.use("/trips", tripsRouter);
