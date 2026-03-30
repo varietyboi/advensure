@@ -107,6 +107,8 @@ This repository includes a Render Blueprint in `render.yaml` that provisions:
 3. Create the Blueprint in your Render workspace.
 4. Wait for the first deploy to complete.
 
+Note: Render free-tier web services do not support `preDeployCommand`, so the Blueprint runs `prisma db push` during API startup.
+
 ### Live URLs After Deploy
 
 - App: https://advensure-web-varietyboi.onrender.com

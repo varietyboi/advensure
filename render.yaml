@@ -6,8 +6,7 @@ services:
     region: oregon
     rootDir: .
     buildCommand: npm ci && npm run prisma:generate --workspace apps/api && npm run build --workspace apps/api
-    preDeployCommand: npm run prisma:push --workspace apps/api
-    startCommand: npm run start --workspace apps/api
+    startCommand: npm run prisma:push --workspace apps/api && npm run start --workspace apps/api
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
