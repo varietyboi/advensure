@@ -5,7 +5,7 @@ services:
     plan: free
     region: oregon
     rootDir: .
-    buildCommand: npm ci && npm run prisma:generate --workspace apps/api && npm run build --workspace apps/api
+    buildCommand: npm ci --include=dev && npm run prisma:generate --workspace apps/api && npm run build --workspace apps/api
     startCommand: npm run prisma:push --workspace apps/api && npm run start --workspace apps/api
     healthCheckPath: /health
     envVars:
@@ -17,14 +17,12 @@ services:
         generateValue: true
       - key: WEB_ORIGIN
         value: https://advensure-web-varietyboi.onrender.com
-      - key: NODE_ENV
-        value: production
 
   - type: web
     name: advensure-web-varietyboi
     runtime: static
     rootDir: .
-    buildCommand: npm ci && npm run build --workspace apps/web
+    buildCommand: npm ci --include=dev && npm run build --workspace apps/web
     staticPublishPath: apps/web/dist
     routes:
       - type: rewrite
