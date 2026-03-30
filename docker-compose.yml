@@ -1,0 +1,17 @@
+services:
+	postgres:
+		image: postgres:16-alpine
+		container_name: advensure-postgres
+		restart: unless-stopped
+		ports:
+			- "5432:5432"
+		environment:
+			POSTGRES_USER: advensure
+			POSTGRES_PASSWORD: advensure
+			POSTGRES_DB: advensure
+		volumes:
+			- postgres_data:/var/lib/postgresql/data
+
+volumes:
+	postgres_data:
+

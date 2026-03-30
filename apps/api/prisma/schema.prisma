@@ -1,0 +1,160 @@
+generator client {
+	provider = "prisma-client-js"
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+enum Mood {
+	CALM
+	HAPPY
+	TIRED
+	GRATEFUL
+	STRESSED
+}
+
+enum TemplateKind {
+	BLANK
+	STANDARD
+}
+
+enum FontMode {
+	TYPEWRITER
+	BOHEMIAN_TYPEWRITER
+	HANDWRITING
+	STANDARD
+}
+
+enum ThemeMode {
+	LIGHT
+	DARK
+}
+
+enum CurrencyCode {
+	USD
+	EUR
+	GBP
+	JPY
+	CNY
+	INR
+	AUD
+	CAD
+	CHF
+	SEK
+	NOK
+	DKK
+	NZD
+	SGD
+	HKD
+	KRW
+	AED
+	SAR
+	QAR
+	KWD
+	BHD
+	OMR
+	TRY
+	ZAR
+	BRL
+	MXN
+	ARS
+	CLP
+	COP
+	PEN
+	IDR
+	THB
+	MYR
+	PHP
+	VND
+	RUB
+	PLN
+	CZK
+	HUF
+	RON
+	ILS
+	EGP
+	NGN
+	PKR
+	BDT
+	LKR
+}
+
+model User {
+	id           String          @id @default(cuid())
+	email        String          @unique
+	passwordHash String
+	createdAt    DateTime        @default(now())
+	trips        Trip[]
+	journal      JournalEntry[]
+	preference   ThemePreference?
+}
+
+model ThemePreference {
+	id        String    @id @default(cuid())
+	userId    String    @unique
+	user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+	fontMode  FontMode  @default(STANDARD)
+	themeMode ThemeMode @default(LIGHT)
+	updatedAt DateTime  @updatedAt
+}
+
+model Trip {
+	id             String         @id @default(cuid())
+	userId         String
+	user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+	location       String
+	budget         Decimal?       @db.Decimal(10, 2)
+	startDate      DateTime
+	endDate        DateTime
+	createdAt      DateTime       @default(now())
+	itineraryItems ItineraryItem[]
+	expenses       Expense[]
+	journalEntries JournalEntry[]
+
+	@@index([userId])
+}
+
+model JournalEntry {
+	id        String       @id @default(cuid())
+	userId    String
+	user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+	tripId    String?
+	trip      Trip?        @relation(fields: [tripId], references: [id], onDelete: SetNull)
+	title     String
+	content   String
+	mood      Mood         @default(CALM)
+	template  TemplateKind @default(BLANK)
+	createdAt DateTime     @default(now())
+	updatedAt DateTime     @updatedAt
+
+	@@index([userId])
+	@@index([tripId])
+}
+
+model ItineraryItem {
+	id        String   @id @default(cuid())
+	tripId    String
+	trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+	title     String
+	startsAt  DateTime?
+	notes     String?
+	createdAt DateTime @default(now())
+
+	@@index([tripId])
+}
+
+model Expense {
+	id        String   @id @default(cuid())
+	tripId    String
+	trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+	label     String
+	amount    Decimal  @db.Decimal(10, 2)
+	currency  CurrencyCode @default(USD)
+	spentOn   DateTime @default(now())
+	createdAt DateTime @default(now())
+
+	@@index([tripId])
+}
+
