@@ -4,6 +4,8 @@
 
 AdvenSure is a journaling-first travel app that combines reflection, trip planning, itinerary management, and expense tracking in one lightweight workflow.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/varietyboi/advensure)
+
 ## Versioning Strategy
 
 - `v2.0` (default branch): current product and active development.
@@ -89,6 +91,39 @@ npm run dev:web
 
 - API: http://localhost:4000
 - Web: http://localhost:5173
+
+## Production Deployment (Render)
+
+This repository includes a Render Blueprint in `render.yaml` that provisions:
+
+- A Node.js API service
+- A static frontend service
+- A managed PostgreSQL database
+
+### One-Click Deploy
+
+1. Click the Deploy to Render button above.
+2. Confirm the default branch is `v2.0`.
+3. Create the Blueprint in your Render workspace.
+4. Wait for the first deploy to complete.
+
+### Live URLs After Deploy
+
+- App: https://advensure-web-varietyboi.onrender.com
+- API health: https://advensure-api-varietyboi.onrender.com/health
+
+### First-Time Production Seed
+
+In the Render dashboard, open a Shell for the API service and run:
+
+```bash
+npm run seed:demo --workspace apps/api
+```
+
+This creates demo data and credentials:
+
+- Email: `demo@advensure.app`
+- Password: `DemoPass123!`
 
 ## Demo Data
 
