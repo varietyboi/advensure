@@ -23,7 +23,6 @@ services:
   - type: web
     name: advensure-web-varietyboi
     runtime: static
-    plan: free
     rootDir: .
     buildCommand: npm ci && npm run build --workspace apps/web
     staticPublishPath: apps/web/dist
